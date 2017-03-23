@@ -16,6 +16,7 @@ None
     nodenv_user: "ubuntu"
     nodenv_path: ".nodenv"
     nodenv_version: "1.0.0"
+    nodenv_default_version: "5.6.0"
     nodenv_versions:
     - 5.6.0
 
@@ -24,6 +25,7 @@ None
   - `nodenv_user`: System user to install nodenv for.
   - `nodenv_path`: Install path.
   - `nodenv_version`: Version of nodenv to install.
+  - `nodenv_default_version`: The system's default version.
   - `nodenv_versions`: Array of versions of NodeJS to install.
 
 ## Example Playbook
