@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/eventtus/ansible-role-nodenv.svg?branch=master)](https://travis-ci.org/eventtus/ansible-role-nodenv)
 [![GitHub issues](https://img.shields.io/github/issues/eventtus/ansible-role-nodenv.svg?maxAge=2592000)](https://github.com/eventtus/ansible-role-nodenv/issues)
 
-An Ansible role that installs Nodenv and NodeJS on Ubuntu and Debian
+An Ansible role that installs Nodenv, NodeJS and node-build on Ubuntu and Debian
 
 ## Requirements
 

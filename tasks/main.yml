@@ -36,6 +36,18 @@
     - 'export PATH=~/{{ nodenv_path }}/bin:$PATH'
     - 'eval "$(nodenv init -)"'
 
+- name: check if node-build is installed
+  stat:
+    path: /home/{{ nodenv_user }}/{{ nodenv_path }}/plugins/node-build
+  register: nbd
+
+- name: install node-build
+  become_user: "{{ nodenv_user }}"
+  when: nbd.stat.isdir is not defined
+  git:
+    repo: https://github.com/nodenv/node-build.git
+    dest: /home/{{ nodenv_user }}/{{ nodenv_path }}/plugins/node-build
+
 - name: check installed versions
   shell:
     ls /home/{{ nodenv_user }}/{{ nodenv_path }}/versions
