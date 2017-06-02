@@ -8,27 +8,27 @@
 
 - name: check if nodenv is installed
   stat:
-    path: /home/{{ user }}/{{ nodenv_path }}
+    path: /home/{{ nodenv_user }}/{{ nodenv_path }}
   register: nvd
 
 - name: download {{ nodenv_version }}
-  become_user: "{{ user }}"
+  become_user: "{{ nodenv_user }}"
   when: nvd.stat.isdir is not defined
   git:
     repo: https://github.com/nodenv/nodenv.git
-    dest: /home/{{ user }}/{{ nodenv_path }}
+    dest: /home/{{ nodenv_user }}/{{ nodenv_path }}
 
 - name: create versions directory
-  become_user: "{{ user }}"
+  become_user: "{{ nodenv_user }}"
   file:
-    path: /home/{{ user }}/{{ item }}
+    path: /home/{{ nodenv_user }}/{{ item }}
     state: directory
     mode: 0775
   with_items:
     - "{{ nodenv_path }}/versions"
 
 - name: install {{ nodenv_version }}
-  become_user: "{{ user }}"
+  become_user: "{{ nodenv_user }}"
   lineinfile:
     dest: .bashrc
     line: "{{ item }}"
@@ -38,23 +38,23 @@
 
 - name: check installed versions
   shell:
-    ls /home/{{ user }}/{{ nodenv_path }}/versions
+    ls /home/{{ nodenv_user }}/{{ nodenv_path }}/versions
   register: installed_nodes
 
 - set_fact:
     nodes: "{{ nodenv_versions | difference(installed_nodes.stdout_lines) }}"
 
 - name: install versions {{ nodes }}
-  become_user: "{{ user }}"
+  become_user: "{{ nodenv_user }}"
   shell:
     ~/{{ nodenv_path }}/bin/nodenv install "{{ item }}"
   with_items: "{{ nodes }}"
   when: nodes | length | int > 0
 
 - name: set global version to {{ nodenv_default_version }}
-  become_user: "{{ user }}"
+  become_user: "{{ nodenv_user }}"
   lineinfile:
-    dest: /home/{{ user }}/{{ nodenv_path }}/version
+    dest: /home/{{ nodenv_user }}/{{ nodenv_path }}/version
     line: "{{ nodenv_default_version }}"
     state: present
     create: yes
